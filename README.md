@@ -1,11 +1,11 @@
-MinIO Go Client SDK for Amazon S3 Compatible Cloud Storage [![Slack](https://slack.min.io/slack?type=svg)](https://slack.min.io) [![Sourcegraph](https://sourcegraph.com/github.com/minio/minio-go/-/badge.svg)](https://sourcegraph.com/github.com/minio/minio-go?badge) [![Apache V2 License](https://img.shields.io/badge/license-Apache%20V2-blue.svg)](https://github.com/minio/minio-go/blob/master/LICENSE)
+OpenStor Go Client SDK for Amazon S3 Compatible Cloud Storage [![Apache V2 License](https://img.shields.io/badge/license-Apache%20V2-blue.svg)](https://github.com/openstor/openstor-go/blob/master/LICENSE)
 ==================================================================================================================================================================================================================================================================================================================================================================================================================
 
-The MinIO Go Client SDK provides straightforward APIs to access any Amazon S3 compatible object storage.
+The OpenStor Go Client SDK provides straightforward APIs to access any Amazon S3 compatible object storage.
 
-This Quickstart Guide covers how to install the MinIO client SDK, connect to MinIO, and create a sample file uploader. For a complete list of APIs and examples, see the [godoc documentation](https://pkg.go.dev/github.com/minio/minio-go/v7) or [Go Client API Reference](https://min.io/docs/minio/linux/developers/go/API.html).
+This Quickstart Guide covers how to install the OpenStor client SDK and create a sample file uploader. For a complete list of APIs and examples, see the [godoc documentation](https://pkg.go.dev/github.com/openstor/openstor-go/v7).
 
-These examples presume a working [Go development environment](https://golang.org/doc/install) and the [MinIO `mc` command line tool](https://min.io/docs/minio/linux/reference/minio-mc.html).
+These examples presume a working [Go development environment](https://golang.org/doc/install).
 
 Download from Github
 --------------------
@@ -13,18 +13,18 @@ Download from Github
 From your project directory:
 
 ```sh
-go get github.com/minio/minio-go/v7
+go get github.com/openstor/openstor-go/v7
 ```
 
-Initialize a MinIO Client Object
+Initialize an OpenStor Client Object
 --------------------------------
 
-The MinIO client requires the following parameters to connect to an Amazon S3 compatible object storage:
+The OpenStor client requires the following parameters to connect to an Amazon S3 compatible object storage:
 
 | Parameter         | Description                                                |
 |-------------------|------------------------------------------------------------|
 | `endpoint`        | URL to object storage service.                             |
-| `_minio.Options_` | All the options such as credentials, custom transport etc. |
+| `_openstor.Options_` | All the options such as credentials, custom transport etc. |
 
 ```go
 package main
@@ -32,8 +32,8 @@ package main
 import (
 	"log"
 
-	"github.com/minio/minio-go/v7"
-	"github.com/minio/minio-go/v7/pkg/credentials"
+	"github.com/openstor/openstor-go/v7"
+	"github.com/openstor/openstor-go/v7/pkg/credentials"
 )
 
 func main() {
@@ -42,8 +42,8 @@ func main() {
 	secretAccessKey := "zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG"
 	useSSL := true
 
-	// Initialize minio client object.
-	minioClient, err := minio.New(endpoint, &minio.Options{
+	// Initialize openstor client object.
+	client, err := openstor.New(endpoint, &openstor.Options{
 		Creds:  credentials.NewStaticV4(accessKeyID, secretAccessKey, ""),
 		Secure: useSSL,
 	})
@@ -51,16 +51,14 @@ func main() {
 		log.Fatalln(err)
 	}
 
-	log.Printf("%#v\n", minioClient) // minioClient is now set up
+	log.Printf("%#v\n", client) // client is now set up
 }
 ```
 
 Example - File Uploader
 -----------------------
 
-This sample code connects to an object storage server, creates a bucket, and uploads a file to the bucket. It uses the MinIO `play` server, a public MinIO cluster located at [https://play.min.io](https://play.min.io).
-
-The `play` server runs the latest stable version of MinIO and may be used for testing and development. The access credentials shown in this example are open to the public and all data uploaded to `play` should be considered public and non-protected.
+This sample code connects to an object storage server, creates a bucket, and uploads a file to the bucket.
 
 ### FileUploader.go
 
@@ -72,26 +70,26 @@ This example does the following:
 -	Verifies the file was created using `mc ls`.
 
 	```go
-	// FileUploader.go MinIO example
+	// FileUploader.go OpenStor example
 	package main
 
 	import (
 		"context"
 		"log"
 
-		"github.com/minio/minio-go/v7"
-		"github.com/minio/minio-go/v7/pkg/credentials"
+		"github.com/openstor/openstor-go/v7"
+		"github.com/openstor/openstor-go/v7/pkg/credentials"
 	)
 
 	func main() {
 		ctx := context.Background()
-		endpoint := "play.min.io"
-		accessKeyID := "Q3AM3UQ867SPQQA43P2F"
-		secretAccessKey := "zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG"
+		endpoint := "your-s3-endpoint.example.com"
+		accessKeyID := "YOUR-ACCESSKEYID"
+		secretAccessKey := "YOUR-SECRETACCESSKEY"
 		useSSL := true
 
-		// Initialize minio client object.
-		minioClient, err := minio.New(endpoint, &minio.Options{
+		// Initialize openstor client object.
+		client, err := openstor.New(endpoint, &openstor.Options{
 			Creds:  credentials.NewStaticV4(accessKeyID, secretAccessKey, ""),
 			Secure: useSSL,
 		})
@@ -103,10 +101,10 @@ This example does the following:
 		bucketName := "testbucket"
 		location := "us-east-1"
 
-		err = minioClient.MakeBucket(ctx, bucketName, minio.MakeBucketOptions{Region: location})
+		err = client.MakeBucket(ctx, bucketName, openstor.MakeBucketOptions{Region: location})
 		if err != nil {
 			// Check to see if we already own this bucket (which happens if you run this twice)
-			exists, errBucketExists := minioClient.BucketExists(ctx, bucketName)
+			exists, errBucketExists := client.BucketExists(ctx, bucketName)
 			if errBucketExists == nil && exists {
 				log.Printf("We already own %s\n", bucketName)
 			} else {
@@ -123,7 +121,7 @@ This example does the following:
 		contentType := "application/octet-stream"
 
 		// Upload the test file with FPutObject
-		info, err := minioClient.FPutObject(ctx, bucketName, objectName, filePath, minio.PutObjectOptions{ContentType: contentType})
+		info, err := client.FPutObject(ctx, bucketName, objectName, filePath, openstor.PutObjectOptions{ContentType: contentType})
 		if err != nil {
 			log.Fatalln(err)
 		}
@@ -133,6 +131,8 @@ This example does the following:
 	```
 
 **1. Create a test file containing data:**
+
+Note: The example uses public S3-compatible endpoint credentials for demonstration purposes. In production, use your own endpoint and credentials.
 
 You can do this with `dd` on Linux or macOS systems:
 
@@ -150,8 +150,8 @@ fsutil file createnew "C:\Users\<username>\Desktop\sample.txt" 20480
 
 ```sh
 go mod init example/FileUploader
-go get github.com/minio/minio-go/v7
-go get github.com/minio/minio-go/v7/pkg/credentials
+go get github.com/openstor/openstor-go/v7
+go get github.com/openstor/openstor-go/v7/pkg/credentials
 go run FileUploader.go
 ```
 
@@ -165,7 +165,7 @@ The output resembles the following:
 **3. Verify the Uploaded File With `mc ls`:**
 
 ```sh
-mc ls play/testbucket
+# Use your S3-compatible client to list objects in testbucket
 [2023-11-01 14:27:55 UTC]  20KiB STANDARD TestDataFile
 ```
 
@@ -174,7 +174,6 @@ API Reference
 
 The full API Reference is available here.
 
--	[Complete API Reference](https://min.io/docs/minio/linux/developers/go/API.html)
 
 ### API Reference : Bucket Operations
 
@@ -228,91 +227,17 @@ The full API Reference is available here.
 -	[`TraceOn`](https://min.io/docs/minio/linux/developers/go/API.html#TraceOn)
 -	[`TraceOff`](https://min.io/docs/minio/linux/developers/go/API.html#TraceOff)
 
-Full Examples
--------------
-
-### Full Examples : Bucket Operations
-
--	[makebucket.go](https://github.com/minio/minio-go/blob/master/examples/s3/makebucket.go)
--	[listbuckets.go](https://github.com/minio/minio-go/blob/master/examples/s3/listbuckets.go)
--	[bucketexists.go](https://github.com/minio/minio-go/blob/master/examples/s3/bucketexists.go)
--	[removebucket.go](https://github.com/minio/minio-go/blob/master/examples/s3/removebucket.go)
--	[listobjects.go](https://github.com/minio/minio-go/blob/master/examples/s3/listobjects.go)
--	[listobjectsV2.go](https://github.com/minio/minio-go/blob/master/examples/s3/listobjectsV2.go)
--	[listincompleteuploads.go](https://github.com/minio/minio-go/blob/master/examples/s3/listincompleteuploads.go)
-
-### Full Examples : Bucket policy Operations
-
--	[setbucketpolicy.go](https://github.com/minio/minio-go/blob/master/examples/s3/setbucketpolicy.go)
--	[getbucketpolicy.go](https://github.com/minio/minio-go/blob/master/examples/s3/getbucketpolicy.go)
--	[listbucketpolicies.go](https://github.com/minio/minio-go/blob/master/examples/s3/listbucketpolicies.go)
-
-### Full Examples : Bucket lifecycle Operations
-
--	[setbucketlifecycle.go](https://github.com/minio/minio-go/blob/master/examples/s3/setbucketlifecycle.go)
--	[getbucketlifecycle.go](https://github.com/minio/minio-go/blob/master/examples/s3/getbucketlifecycle.go)
-
-### Full Examples : Bucket encryption Operations
-
--	[setbucketencryption.go](https://github.com/minio/minio-go/blob/master/examples/s3/setbucketencryption.go)
--	[getbucketencryption.go](https://github.com/minio/minio-go/blob/master/examples/s3/getbucketencryption.go)
--	[removebucketencryption.go](https://github.com/minio/minio-go/blob/master/examples/s3/removebucketencryption.go)
-
-### Full Examples : Bucket replication Operations
-
--	[setbucketreplication.go](https://github.com/minio/minio-go/blob/master/examples/s3/setbucketreplication.go)
--	[getbucketreplication.go](https://github.com/minio/minio-go/blob/master/examples/s3/getbucketreplication.go)
--	[removebucketreplication.go](https://github.com/minio/minio-go/blob/master/examples/s3/removebucketreplication.go)
-
-### Full Examples : Bucket notification Operations
-
--	[setbucketnotification.go](https://github.com/minio/minio-go/blob/master/examples/s3/setbucketnotification.go)
--	[getbucketnotification.go](https://github.com/minio/minio-go/blob/master/examples/s3/getbucketnotification.go)
--	[removeallbucketnotification.go](https://github.com/minio/minio-go/blob/master/examples/s3/removeallbucketnotification.go)
--	[listenbucketnotification.go](https://github.com/minio/minio-go/blob/master/examples/minio/listenbucketnotification.go) (MinIO Extension)
--	[listennotification.go](https://github.com/minio/minio-go/blob/master/examples/minio/listen-notification.go) (MinIO Extension)
-
-### Full Examples : File Object Operations
-
--	[fputobject.go](https://github.com/minio/minio-go/blob/master/examples/s3/fputobject.go)
--	[fgetobject.go](https://github.com/minio/minio-go/blob/master/examples/s3/fgetobject.go)
-
-### Full Examples : Object Operations
-
--	[putobject.go](https://github.com/minio/minio-go/blob/master/examples/s3/putobject.go)
--	[getobject.go](https://github.com/minio/minio-go/blob/master/examples/s3/getobject.go)
--	[statobject.go](https://github.com/minio/minio-go/blob/master/examples/s3/statobject.go)
--	[copyobject.go](https://github.com/minio/minio-go/blob/master/examples/s3/copyobject.go)
--	[removeobject.go](https://github.com/minio/minio-go/blob/master/examples/s3/removeobject.go)
--	[removeincompleteupload.go](https://github.com/minio/minio-go/blob/master/examples/s3/removeincompleteupload.go)
--	[removeobjects.go](https://github.com/minio/minio-go/blob/master/examples/s3/removeobjects.go)
-
-### Full Examples : Encrypted Object Operations
-
--	[put-encrypted-object.go](https://github.com/minio/minio-go/blob/master/examples/s3/put-encrypted-object.go)
--	[get-encrypted-object.go](https://github.com/minio/minio-go/blob/master/examples/s3/get-encrypted-object.go)
--	[fput-encrypted-object.go](https://github.com/minio/minio-go/blob/master/examples/s3/fputencrypted-object.go)
-
-### Full Examples : Presigned Operations
-
--	[presignedgetobject.go](https://github.com/minio/minio-go/blob/master/examples/s3/presignedgetobject.go)
--	[presignedputobject.go](https://github.com/minio/minio-go/blob/master/examples/s3/presignedputobject.go)
--	[presignedheadobject.go](https://github.com/minio/minio-go/blob/master/examples/s3/presignedheadobject.go)
--	[presignedpostpolicy.go](https://github.com/minio/minio-go/blob/master/examples/s3/presignedpostpolicy.go)
-
 Explore Further
 ---------------
 
--	[Godoc Documentation](https://pkg.go.dev/github.com/minio/minio-go/v7)
--	[Complete Documentation](https://min.io/docs/minio/kubernetes/upstream/index.html)
--	[MinIO Go Client SDK API Reference](https://min.io/docs/minio/linux/developers/go/API.html)
+-	[Godoc Documentation](https://pkg.go.dev/github.com/openstor/openstor-go/v7)
 
 Contribute
 ----------
 
-[Contributors Guide](https://github.com/minio/minio-go/blob/master/CONTRIBUTING.md)
+[Contributors Guide](https://github.com/openstor/openstor-go/blob/master/CONTRIBUTING.md)
 
 License
 -------
 
-This SDK is distributed under the [Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0), see [LICENSE](https://github.com/minio/minio-go/blob/master/LICENSE) and [NOTICE](https://github.com/minio/minio-go/blob/master/NOTICE) for more information.
+This SDK is distributed under the [Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0), see [LICENSE](https://github.com/openstor/openstor-go/blob/master/LICENSE) and [NOTICE](https://github.com/openstor/openstor-go/blob/master/NOTICE) for more information.

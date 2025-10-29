@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: 2025 openstor contributors
+// SPDX-FileCopyrightText: 2015-2025 MinIO, Inc.
+// SPDX-License-Identifier: Apache-2.0
 //go:build go1.7 || go1.8
 // +build go1.7 go1.8
 
@@ -18,7 +21,7 @@
  * limitations under the License.
  */
 
-package minio
+package openstor
 
 import (
 	"crypto/tls"

@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: 2025 openstor contributors
+// SPDX-FileCopyrightText: 2015-2025 MinIO, Inc.
+// SPDX-License-Identifier: Apache-2.0
 //go:build example
 // +build example
 
@@ -27,9 +30,9 @@ import (
 	"log"
 	"os"
 
-	"github.com/minio/minio-go/v7"
-	"github.com/minio/minio-go/v7/pkg/credentials"
-	"github.com/minio/minio-go/v7/pkg/encrypt"
+	minio "github.com/openstor/openstor-go/v7"
+	"github.com/openstor/openstor-go/v7/pkg/credentials"
+	"github.com/openstor/openstor-go/v7/pkg/encrypt"
 )
 
 func main() {

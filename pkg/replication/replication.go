@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: 2025 openstor contributors
+// SPDX-FileCopyrightText: 2015-2025 MinIO, Inc.
+// SPDX-License-Identifier: Apache-2.0
 /*
  * MinIO Client (C) 2020 MinIO, Inc.
  *

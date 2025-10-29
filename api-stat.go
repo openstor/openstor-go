@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: 2025 openstor contributors
+// SPDX-FileCopyrightText: 2015-2025 MinIO, Inc.
+// SPDX-License-Identifier: Apache-2.0
 /*
  * MinIO Go Library for Amazon S3 Compatible Cloud Storage
  * Copyright 2015-2020 MinIO, Inc.
@@ -15,13 +18,13 @@
  * limitations under the License.
  */
 
-package minio
+package openstor
 
 import (
 	"context"
 	"net/http"
 
-	"github.com/minio/minio-go/v7/pkg/s3utils"
+	"github.com/openstor/openstor-go/v7/pkg/s3utils"
 )
 
 // BucketExists verifies if bucket exists and you have permission to access it. Allows for a Context to

@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: 2025 openstor contributors
+// SPDX-FileCopyrightText: 2015-2025 MinIO, Inc.
+// SPDX-License-Identifier: Apache-2.0
 /*
  * MinIO Go Library for Amazon S3 Compatible Cloud Storage
  * Copyright 2017 MinIO, Inc.
@@ -14,7 +17,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package minio
+package openstor
 
 import (
 	"net/http"

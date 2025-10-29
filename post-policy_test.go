@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: 2025 openstor contributors
+// SPDX-FileCopyrightText: 2015-2025 MinIO, Inc.
+// SPDX-License-Identifier: Apache-2.0
 /*
  * MinIO Go Library for Amazon S3 Compatible Cloud Storage
  * Copyright 2015-2023 MinIO, Inc.
@@ -15,14 +18,14 @@
  * limitations under the License.
  */
 
-package minio
+package openstor
 
 import (
 	"strings"
 	"testing"
 	"time"
 
-	"github.com/minio/minio-go/v7/pkg/encrypt"
+	"github.com/openstor/openstor-go/v7/pkg/encrypt"
 )
 
 func TestPostPolicySetExpires(t *testing.T) {

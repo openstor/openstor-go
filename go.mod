@@ -1,8 +1,6 @@
-module github.com/minio/minio-go/v7
+module github.com/openstor/openstor-go/v7
 
-go 1.23.0
-
-toolchain go1.24.3
+go 1.25
 
 require (
 	github.com/dustin/go-humanize v1.0.1
@@ -10,8 +8,8 @@ require (
 	github.com/google/uuid v1.6.0
 	github.com/klauspost/compress v1.18.0
 	github.com/klauspost/crc32 v1.3.0
-	github.com/minio/crc64nvme v1.1.0
-	github.com/minio/md5-simd v1.1.2
+	github.com/openstor/crc64nvme v0.0.0-20251029033624-a8be6069b19b
+	github.com/openstor/md5-simd v0.0.0-20251030001503-8bd65c23d2c1
 	github.com/rs/xid v1.6.0
 	github.com/tinylib/msgp v1.3.0
 	golang.org/x/crypto v0.36.0
@@ -20,7 +18,7 @@ require (
 )
 
 require (
-	github.com/klauspost/cpuid/v2 v2.2.11 // indirect
+	github.com/klauspost/cpuid/v2 v2.3.0 // indirect
 	github.com/philhofer/fwd v1.2.0 // indirect
 	github.com/stretchr/testify v1.9.0 // indirect
 	golang.org/x/sys v0.34.0 // indirect

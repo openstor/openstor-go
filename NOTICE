@@ -1,9 +1,10 @@
-MinIO Cloud Storage, (C) 2014-2020 MinIO, Inc.
+OpenStor Go Client, (C) 2025 OpenStor Contributors
+MinIO Cloud Storage, (C) 2014-2025 MinIO, Inc.
 
-This product includes software developed at MinIO, Inc.
-(https://min.io/).
+This product includes software developed at OpenStor (https://openstor.org/)
+and MinIO, Inc. (https://min.io/).
 
-The MinIO project contains unmodified/modified subcomponents too with
+The project contains unmodified/modified subcomponents with
 separate copyright notices and license terms. Your use of the source
 code for these subcomponents is subject to the terms and conditions
 of Apache License Version 2.0

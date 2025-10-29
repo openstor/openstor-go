@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: 2025 openstor contributors
+// SPDX-FileCopyrightText: 2015-2025 MinIO, Inc.
+// SPDX-License-Identifier: Apache-2.0
 /*
  * MinIO Go Library for Amazon S3 Compatible Cloud Storage
  * Copyright 2017 MinIO, Inc.
@@ -15,7 +18,7 @@
  * limitations under the License.
  */
 
-package minio
+package openstor
 
 import (
 	"bytes"
@@ -30,7 +33,7 @@ import (
 	"sync"
 
 	"github.com/google/uuid"
-	"github.com/minio/minio-go/v7/pkg/s3utils"
+	"github.com/openstor/openstor-go/v7/pkg/s3utils"
 )
 
 // putObjectMultipartStream - upload a large object using

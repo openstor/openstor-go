@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: 2025 openstor contributors
+// SPDX-FileCopyrightText: 2015-2025 MinIO, Inc.
+// SPDX-License-Identifier: Apache-2.0
 /*
  * Copyright
  *  2015, 2016, 2017 MinIO, Inc.
@@ -15,7 +18,7 @@
  * limitations under the License.
  */
 
-package minio
+package openstor
 
 import (
 	"bytes"
@@ -28,9 +31,9 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/minio/minio-go/v7/pkg/credentials"
-	"github.com/minio/minio-go/v7/pkg/kvcache"
-	"github.com/minio/minio-go/v7/pkg/signer"
+	"github.com/openstor/openstor-go/v7/pkg/credentials"
+	"github.com/openstor/openstor-go/v7/pkg/kvcache"
+	"github.com/openstor/openstor-go/v7/pkg/signer"
 )
 
 // Tests validate kvCache operations.
